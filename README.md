@@ -43,7 +43,7 @@ _Nhớ đọc nhé các bro :v_
 - `hotfix/…`: các nhánh temp, nếu cần thay đổi nhanh hay fix nhanh cái nào thì tạo branch này
 
 ### GIT FLOW
-*Lưu ý: Nếu muốn merge code thì phải thông báo lên nhóm*
+*Lưu ý: Nếu muốn merge code lên develop phải thông báo lên nhóm*
 *Nhớ chuyển về root folder để commit code*
 1. Clone repo về máy: `git clone`
 2. Chuyển sang nhánh develop: `git checkout develop`
@@ -55,7 +55,8 @@ _Nhớ đọc nhé các bro :v_
 5. Code trên nhánh vừa tạo ([chọn đúng folder làm việc](#do-not-code-in-the-root-folder-))
 6. Add các thay đổi: `Git add . `(add tất)
 7. `Git commit -m “message”`
-8. Đẩy lên nhánh develop: `git push origin develop`
+8. Đẩy nhánh temp lên github: `git push origin [Tên nhánh]`
+9. Pull request
 
 
 
