@@ -26,7 +26,7 @@ _Nhớ đọc nhé các bro :v_
       │   └── ...           <!-- (other backend files) -->
       │
       ├── frontend/
-      │   ├── src/          <!-- (frontend source code, e.g., components, services) -->
+      │   ├── app/          <!-- (frontend source code, e.g., components, services) -->
       │   ├── public/       <!-- (static assets like index.html, images) -->
       │   ├── .env          <!-- (environment variables for the frontend) -->
       │   ├── .gitignore    <!-- (ignore files for the frontend) -->
