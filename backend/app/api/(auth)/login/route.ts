@@ -2,10 +2,12 @@ import connect from "@/lib/db"
 import User from "@/lib/models/users";
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import { serialize } from 'cookie';
 import {NextResponse} from "next/server";
 
 export const POST = async (req: Request) => {
     try {
+
         const body = await req.json();
         const { email, password } = body;
 
@@ -24,9 +26,6 @@ export const POST = async (req: Request) => {
 
         // Compare provided password with the hashed password
         const isPasswordValid = await bcrypt.compare(password, user.password);
-        //const isPasswordValid = (password === user.password);
-        console.log(isPasswordValid);
-        console.log(password + " " + user.password);
         if (!isPasswordValid) {
             return new NextResponse(JSON.stringify({ message: "Invalid password" }), { status: 400 });
         }
@@ -38,9 +37,23 @@ export const POST = async (req: Request) => {
             { expiresIn: "1h" }
         );
 
+        // Set the JWT token as an HTTP-only cookie
+        const cookie = serialize("authToken", token, {
+            httpOnly: true,  // More secure, prevents access from JavaScript
+            secure: process.env.NODE_ENV === "production", // Use HTTPS in production
+            maxAge: 60 * 60, // 1 hour expiration
+            path: "/", // Cookie available throughout the app
+        });
+
+        // Return success response with the cookie set
         return new NextResponse(
             JSON.stringify({ message: "Login successful", token }),
-            { status: 200 }
+            {
+                status: 200,
+                headers: {
+                    "Set-Cookie": cookie, // Attach cookie to the response headers
+                },
+            }
         );
     } catch (error: any) {
         return new NextResponse(
@@ -49,5 +62,3 @@ export const POST = async (req: Request) => {
         );
     }
 };
-
-

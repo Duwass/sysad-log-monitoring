@@ -18,7 +18,7 @@ _Nhớ đọc nhé các bro :v_
       │   │
       │   ├── lib/
       │   │   ├── models/   <!-- (model scripts, e.g., userModel.js) -->
-      │   │   └── db.ts     <!-- (database configuration, e.g., connecting to MongoDB) -->
+      │   │   └── connect.ts     <!-- (database configuration, e.g., connecting to MongoDB) -->
       │   │
       │   ├── .env          <!-- (MONGO_URI, JWT_SECRET) -->
       │   ├── .gitignore    <!-- (ignore files for version control) -->
