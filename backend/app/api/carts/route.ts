@@ -1,4 +1,4 @@
-import connect from "@/lib/db";
+import connect from "@/lib/connect";
 import Cart from "@/lib/models/carts";
 import { NextResponse } from "next/server";
 import { Types } from "mongoose";

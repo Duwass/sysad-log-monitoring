@@ -1,4 +1,4 @@
-import connect from "@/lib/db"
+import connect from "@/lib/connect"
 import User from "@/lib/models/users";
 import {NextResponse} from "next/server";
 import {Types} from "mongoose";
