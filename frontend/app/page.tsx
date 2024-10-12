@@ -14,7 +14,7 @@ export default function Home() {
               Đây là một cái text nói gì đó, <br /> đăng nhập để biết bí mật của trang web <br />
               Một nửa của sự thật không phải sự thật. <br /> Nhưng điều quan trọng nhất đó là, <br /> phải có một trái tim kiên cường
             </p>
-            <Link legacyBehavior href="/sign-up">
+            <Link legacyBehavior href="/register">
               <a className="mt-8 inline-block bg-blue-500 text-white px-32 py-3 rounded">Tiếp tục</a>
             </Link>
           </div>
