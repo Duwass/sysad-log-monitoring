@@ -9,10 +9,10 @@ _Nhớ đọc nhé các bro :v_
 
 ### SETUP
 - **Frontend**:
-  - NextJs 
+  - Framework: NextJs 
   - PORT = 3000
 - **Backend**:
-  - ExpressJs
+  - Framework: Express.js
   - PORT = 3001
 
 ### WORKFLOW
