@@ -15,6 +15,8 @@ _Nhớ đọc nhé các bro :v_
   - Framework: Express.js
   - PORT = 3001
 
+  **Logs**
+  - FileBeats: 5044
 ### WORKFLOW
 - **Frontend side:**
   - Chuyển sang folder frontend để code`cd frontend`

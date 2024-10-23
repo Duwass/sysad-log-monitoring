@@ -1,0 +1,64 @@
+# Comments are provided throughout this file to help you get started.
+# If you need more help, visit the Docker Compose reference guide at
+# https://docs.docker.com/go/compose-spec-reference/
+
+# Here the instructions define your application as a service called "server".
+# This service is built from the Dockerfile in the current directory.
+# You can add other services your application may depend on here, such as a
+# database or a cache. For examples, see the Awesome Compose repository:
+# https://github.com/docker/awesome-compose
+services:
+  frontend:
+    build:
+      context: ./frontend
+#    volumes:
+#      - ./frontend/package.json:/usr/src/app
+    ports:
+      - "3000:3000"
+
+  backend:
+    build: 
+      context: ./express-backend
+    ports:
+      - "3001:3001"
+  
+  filebeat:
+    image: docker.elastic.co/beats/filebeat:8.12.2
+    command: filebeat -e -strict.perms=false
+    volumes:
+      - ./elk/filebeat.yml:/usr/share/filebeat/filebeat.yml
+      - ./logs:/var/log/server
+  
+  logstash:
+    image: docker.elastic.co/logstash/logstash:8.12.2
+    volumes:
+      - ./elk/logstash.conf:/usr/share/logstash/pipeline/logstash.conf
+    environment:
+      - ElASTIC_USER = elastic
+      - ELASTIC_PASSWORD = myelasticpass
+      - ELASTIC_HOSTS = http://elastic:9200
+    depends_on:
+      - elastic
+
+  elastic:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.12.2
+    environment:
+      - ELASTIC_PASSWORD=myelasticpass
+      - KIBANA_PASSWORD=kibanapass
+      - discovery.type=single-node
+      - xpack.security.http.ssl.enabled=false
+      - cluster.routing.allocation.disk.threshold_enabled=false
+    volumes:
+      - ./elk/data:/usr/share/elasticsearch/data
+  
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.12.2
+    environment:
+      SERVER_NAME: kibana
+      ELASTICSEARCH_HOSTS: '["http://elastic:9200"]'
+      ELASTICSEARCH_USERNAME: kibana_system
+      ELASTICSEARCH_PASSWORD: kibanapass
+    ports:
+      - "5601:5601"
+    depends_on:
+      - elastic
