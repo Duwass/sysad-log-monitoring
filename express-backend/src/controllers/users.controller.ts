@@ -7,6 +7,7 @@ export const userRegister = async (req : Request, res : Response) => {
         // Validate the input
         if (!username || !email || !password || !phone) {
             res.status(400).json({ message: "Fill all the information" });
+            return;
         }
 
         const user = await User.create(req.body);
@@ -27,17 +28,20 @@ export const userLogin = async (req: Request, res: Response) => {
         // Validate the input
         if (!email || !password) {
             res.status(400).json({ message: "Email and password are required" });
+            return;
         }
 
         // Check if the user exists
         const user = await User.findOne({ email });
         if (!user) {
             res.status(400).json({ message: "Invalid email" });
+            return;
         }
 
         // Compare the entered password with the stored hashed password
         if (user.password !== password) {
             res.status(400).json({ message: "Invalid password" });
+            return;
         }
 
         // Return the user data (excluding password)

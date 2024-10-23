@@ -20,6 +20,8 @@ const Register = () => {
         setError(null);
         setSuccess(null);
 
+        // success variable seems redundant
+
         try {
             const response = await fetch('http://localhost:3001/api/register', {
                 method: 'POST',
@@ -35,19 +37,23 @@ const Register = () => {
             if (response.ok) {
                 // On successful registration, set success message and optionally redirect
                 setSuccess('User registered successfully!');
-                setUsername('');
-                setEmail('');
-                setPassword('');
-                setPhone('');
-                setTimeout(() => {
-                    router.push('/sign-in'); // Redirect to login after registration
-                }, 2000);
+
+                // remove redundancy
+
+                router.push('/dashboard'); // Redirect to dashboard
             } else {
                 // If registration fails, set error message
                 setError(data.message || 'Registration failed. Please try again.');
             }
-        } catch (err) {
+        } catch (error) {
             setError('Something went wrong. Please try again later.');
+
+            let message
+	        if (error instanceof Error) message = error.message
+	        else message = String(error)
+	        reportError({ message })
+
+            console.log(email + ', ' + password)
         }
     };
 
@@ -59,11 +65,11 @@ const Register = () => {
             <div className="flex justify-between w-full items-center font-mono text-sm lg:flex">
                 <div className="text-left pl-6 font-sans">
                     <br /> <br />
-                    <h1 className="w-full font-bold text-4xl text-black">TẠO TÀI KHOẢN</h1>
+                    <h1 className="w-full font-bold text-4xl text-black">ĐĂNG KÝ</h1>
                     <form className="mt-6 text-black text-justify text-base" onSubmit={handleRegister}>
                         <div className="mb-6">
                             <label className="block relative border border-gray-300 rounded p-2 focus-within:border-blue-500">
-                                <span className="absolute -top-2 left-2 bg-white px-1 text-gray-600 text-sm">Tên của bạn là:</span>
+                                <span className="absolute -top-2 left-2 bg-white px-1 text-gray-600 text-sm">Họ tên:</span>
                                 <input
                                     className="w-full focus:outline-none"
                                     type="text"
@@ -89,7 +95,7 @@ const Register = () => {
                         </div>
                         <div className="mb-6">
                             <label className="block relative border border-gray-300 rounded p-2 focus-within:border-blue-500">
-                                <span className="absolute -top-2 left-2 bg-white px-1 text-gray-600 text-sm">Password:</span>
+                                <span className="absolute -top-2 left-2 bg-white px-1 text-gray-600 text-sm">Mật khẩu:</span>
                                 <input
                                     className="w-full focus:outline-none"
                                     type="password"
@@ -102,7 +108,7 @@ const Register = () => {
                         </div>
                         <div className="mb-6">
                             <label className="block relative border border-gray-300 rounded p-2 focus-within:border-blue-500">
-                                <span className="absolute -top-2 left-2 bg-white px-1 text-gray-600 text-sm">Phone:</span>
+                                <span className="absolute -top-2 left-2 bg-white px-1 text-gray-600 text-sm">Điện thoại:</span>
                                 <input
                                     className="w-full focus:outline-none"
                                     type="tel"
@@ -119,7 +125,12 @@ const Register = () => {
                         {success && (
                             <p style={{ color: 'green', marginBottom: '1rem' }}>{success}</p>
                         )}
-                        <button type="submit" className="mt-8 inline-block bg-blue-500 text-white px-36 py-3 rounded">Sign up</button>
+                        <button type="submit" className="mt-8 inline-block bg-blue-500 text-white px-36 py-3 rounded">Tạo tài khoản</button>
+
+                        <div className="my-4 flex justify-center items-center text-gray-600 text-sm">
+                            Đã có tài khoản?
+                            <a href="/login" style={{color: 'blue', textDecoration: 'underline', marginLeft: '5px'}}>Đăng nhập</a>
+                        </div>
                     </form>
                 </div>
                 <div className="flex justify-end">

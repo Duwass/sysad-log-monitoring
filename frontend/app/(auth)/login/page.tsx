@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState } from 'react';
@@ -36,8 +35,15 @@ const Login = () => {
                 // Set the error message if login fails
                 setError(data.message || 'Login failed. Please try again.');
             }
-        } catch (err) {
+        } catch (error) {
             setError('Something went wrong. Please try again later.');
+            
+            let message
+	        if (error instanceof Error) message = error.message
+	        else message = String(error)
+	        reportError({ message })
+
+            console.log(email + ', ' + password)
         }
     };
 
@@ -66,7 +72,7 @@ const Login = () => {
                         </div>
                         <div className="mb-6">
                             <label className="block relative border border-gray-300 rounded p-2 focus-within:border-blue-500">
-                                <span className="absolute -top-2 left-2 bg-white px-1 text-gray-600 text-sm">Password:</span>
+                                <span className="absolute -top-2 left-2 bg-white px-1 text-gray-600 text-sm">Mật khẩu:</span>
                                 <input
                                     className="w-full focus:outline-none"
                                     type="password"
@@ -80,7 +86,12 @@ const Login = () => {
                         {error && (
                             <p style={{ color: 'red', marginBottom: '1rem' }}>{error}</p>
                         )}
-                        <button type="submit" className="mt-8 inline-block bg-blue-500 text-white px-36 py-3 rounded">Sign in</button>
+                        <button type="submit" className="mt-8 inline-block bg-blue-500 text-white px-36 py-3 rounded">Đăng nhập</button>
+
+                        <div className="my-4 flex justify-center items-center text-gray-600 text-sm">
+                            Chưa có tài khoản?
+                            <a href="/register" style={{color: 'blue', textDecoration: 'underline', marginLeft: '5px'}}>Đăng ký</a>
+                        </div>
                     </form>
                 </div>
                 <div className="flex justify-end">
