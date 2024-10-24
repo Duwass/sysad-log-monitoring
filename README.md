@@ -17,6 +17,8 @@ _Nhớ đọc nhé các bro :v_
 
   **Logs**
   - FileBeats: 5044
+  - Elastic_Search: 9200
+  - Kibana: 5601
 ### WORKFLOW
 - **Frontend side:**
   - Chuyển sang folder frontend để code`cd frontend`
