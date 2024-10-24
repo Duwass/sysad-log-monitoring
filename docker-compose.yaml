@@ -17,28 +17,29 @@ services:
       - "3000:3000"
 
   backend:
-    build: 
+    build:
       context: ./express-backend
     ports:
       - "3001:3001"
-  
+
+  logstash:
+    image: docker.elastic.co/logstash/logstash:8.12.2
+    volumes:
+      - ./elk/logstash.conf:/usr/share/logstash/pipeline/logstash.conf
+    environment:
+      - ELASTIC_USER=elastic
+      - ELASTIC_PASSWORD=myelasticpass
+      - ELASTIC_HOSTS=http://elastic:9200
+    depends_on:
+      - elastic
+
+
   filebeat:
     image: docker.elastic.co/beats/filebeat:8.12.2
     command: filebeat -e -strict.perms=false
     volumes:
       - ./elk/filebeat.yml:/usr/share/filebeat/filebeat.yml
       - ./logs:/var/log/server
-  
-  logstash:
-    image: docker.elastic.co/logstash/logstash:8.12.2
-    volumes:
-      - ./elk/logstash.conf:/usr/share/logstash/pipeline/logstash.conf
-    environment:
-      - ElASTIC_USER = elastic
-      - ELASTIC_PASSWORD = myelasticpass
-      - ELASTIC_HOSTS = http://elastic:9200
-    depends_on:
-      - elastic
 
   elastic:
     image: docker.elastic.co/elasticsearch/elasticsearch:8.12.2
@@ -50,7 +51,7 @@ services:
       - cluster.routing.allocation.disk.threshold_enabled=false
     volumes:
       - ./elk/data:/usr/share/elasticsearch/data
-  
+
   kibana:
     image: docker.elastic.co/kibana/kibana:8.12.2
     environment:
