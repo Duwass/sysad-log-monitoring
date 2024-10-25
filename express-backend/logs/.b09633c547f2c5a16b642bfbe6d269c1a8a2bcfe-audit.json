@@ -1,0 +1,15 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 7
+    },
+    "auditLog": "D:\\Works\\Projects\\sysad-log-monitoring\\express-backend\\logs\\.b09633c547f2c5a16b642bfbe6d269c1a8a2bcfe-audit.json",
+    "files": [
+        {
+            "date": 1729881807211,
+            "name": "D:\\Works\\Projects\\sysad-log-monitoring\\express-backend\\logs\\2024-10-26.log",
+            "hash": "1e1f03fa9ee77b20495a68fc64025d7faa01064625e589a2f2aacc70dd1d8fd1"
+        }
+    ],
+    "hashType": "sha256"
+}
