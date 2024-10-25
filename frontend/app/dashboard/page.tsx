@@ -1,5 +1,6 @@
 'use client'
 import { useEffect, useState } from 'react';
+import logger from "../logger";
 
 interface Product {
     _id: string;
@@ -35,11 +36,14 @@ const Shop = () => {
                 const data = await response.json();
                 if (response.ok) {
                     setProducts(data);
+                    logger.info('Products fetched successfully');
                 } else {
                     setError('Failed to load products');
+                    logger.error('Failed to load products');
                 }
             } catch (err) {
                 setError('Error fetching products');
+                logger.error('Error fetching products');
             } finally {
                 setLoading(false);
             }

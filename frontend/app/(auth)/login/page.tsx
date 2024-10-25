@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
+import logger from "../../logger";
 const Login = () => {
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
@@ -30,10 +31,15 @@ const Login = () => {
             if (response.ok) {
                 // Redirect or handle success
                 alert('Login successful!');
+
+                // Log the login event
+                logger.info(`User ${email} logged in`);
+
                 router.push('/dashboard'); // Example redirect to a protected page
             } else {
                 // Set the error message if login fails
                 setError(data.message || 'Login failed. Please try again.');
+                logger.error('Login failed');
             }
         } catch (error) {
             setError('Something went wrong. Please try again later.');

@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
-
+import logger from "../../logger";
 const Register = () => {
     const [username, setUsername] = useState<string>('');
     const [email, setEmail] = useState<string>('');
@@ -35,14 +35,16 @@ const Register = () => {
             const data = await response.json();
 
             if (response.ok) {
+                //logging the registration event
+                logger.info(`User ${username} registered`);
+
                 // On successful registration, set success message and optionally redirect
                 setSuccess('User registered successfully!');
-
-                // remove redundancy
 
                 router.push('/dashboard'); // Redirect to dashboard
             } else {
                 // If registration fails, set error message
+                logger.error('Registration failed');
                 setError(data.message || 'Registration failed. Please try again.');
             }
         } catch (error) {
