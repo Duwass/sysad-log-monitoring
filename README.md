@@ -68,7 +68,7 @@ _Nhớ đọc nhé các bro :v_
       │   └── ...           <!-- (other frontend files) -->      │
       │
       ├── frontend/
-      │   ├── app/          <!-- (frontend source code, e.g., components, services) -->
+      │   ├── index/          <!-- (frontend source code, e.g., components, services) -->
       │   ├── public/       <!-- (static assets like index.html, images) -->
       │   ├── .env          <!-- (environment variables for the frontend) -->
       │   ├── .gitignore    <!-- (ignore files for the frontend) -->

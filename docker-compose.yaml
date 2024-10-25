@@ -1,18 +1,7 @@
-# Comments are provided throughout this file to help you get started.
-# If you need more help, visit the Docker Compose reference guide at
-# https://docs.docker.com/go/compose-spec-reference/
-
-# Here the instructions define your application as a service called "server".
-# This service is built from the Dockerfile in the current directory.
-# You can add other services your application may depend on here, such as a
-# database or a cache. For examples, see the Awesome Compose repository:
-# https://github.com/docker/awesome-compose
 services:
   frontend:
     build:
       context: ./frontend
-#    volumes:
-#      - ./frontend/package.json:/usr/src/app
     ports:
       - "3000:3000"
 
@@ -21,6 +10,15 @@ services:
       context: ./express-backend
     ports:
       - "3001:3001"
+    volumes:
+      - ./logs:/usr/src/app/logs  # Mount logs directory to the container
+
+  filebeat:
+    image: docker.elastic.co/beats/filebeat:8.12.2
+    command: filebeat -e -strict.perms=false
+    volumes:
+      - ./elk/filebeat.yml:/usr/share/filebeat/filebeat.yml
+      - ./logs:/var/log/server
 
   logstash:
     image: docker.elastic.co/logstash/logstash:8.12.2
@@ -32,14 +30,6 @@ services:
       - ELASTIC_HOSTS=http://elastic:9200
     depends_on:
       - elastic
-
-
-  filebeat:
-    image: docker.elastic.co/beats/filebeat:8.12.2
-    command: filebeat -e -strict.perms=false
-    volumes:
-      - ./elk/filebeat.yml:/usr/share/filebeat/filebeat.yml
-      - ./logs:/var/log/server
 
   elastic:
     image: docker.elastic.co/elasticsearch/elasticsearch:8.12.2
