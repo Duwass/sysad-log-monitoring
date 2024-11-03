@@ -1,6 +1,20 @@
 import User from "../models/users.model"
 import { Request, Response } from 'express';
-//register - login - update - delete
+//register - login - getall
+
+export const getAllUsers = async (req: Request, res: Response) => {
+    try {
+        const users = await User.find({});
+        res.status(200).json(users);
+    } catch (error) {
+        if (error instanceof Error) {
+            res.status(500).json({ message: error.message });
+        } else {
+            res.status(500).json({ message: 'An unknown error occurred' });
+        }
+    }
+};
+
 export const userRegister = async (req : Request, res : Response) => {
     try {
         const { username, email, password, phone } = req.body;

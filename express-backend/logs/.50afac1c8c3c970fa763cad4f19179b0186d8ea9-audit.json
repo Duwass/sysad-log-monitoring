@@ -1,0 +1,20 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 7
+    },
+    "auditLog": "D:\\Proj_sysad\\sysad-log-monitoring\\express-backend\\logs\\.50afac1c8c3c970fa763cad4f19179b0186d8ea9-audit.json",
+    "files": [
+        {
+            "date": 1730541259315,
+            "name": "D:\\Proj_sysad\\sysad-log-monitoring\\express-backend\\logs\\2024-11-02.log",
+            "hash": "2e65ddf604f614438691ce62fb9c651c3c508df6b60be435a1315383236129b0"
+        },
+        {
+            "date": 1730592354459,
+            "name": "D:\\Proj_sysad\\sysad-log-monitoring\\express-backend\\logs\\2024-11-03.log",
+            "hash": "199a9811354b0f3a6d02d9d8488d25ac1c90f1f02a9287f4e35513d08db6e2bf"
+        }
+    ],
+    "hashType": "sha256"
+}
