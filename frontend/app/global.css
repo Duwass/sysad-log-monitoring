@@ -2,28 +2,30 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-    --foreground-rgb: 0, 0, 0;
-    --background-start-rgb: 214, 219, 220;
-    --background-end-rgb: 255, 255, 255;
-}
-
-@media (prefers-color-scheme: dark) {
-    :root {
-        --foreground-rgb: 255, 255, 255;
-        --background-start-rgb: 0, 0, 0;
-        --background-end-rgb: 0, 0, 0;
-    }
-}
-
 body {
-    color: rgb(var(--foreground-rgb));
-    background: linear-gradient(
-            to bottom,
-            transparent,
-            rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+    background-image: linear-gradient(to right,#80d0ff,#42b3f5, #5c95f7, #5d5af7, #925beb,#b450ee,#e759e5, #ff85e7);
+}
+
+div {
+    margin: auto;
+    padding: 8px;
+}
+
+div.header {
+    display: flex;
+    justify-content: space-between;
+}
+
+button:hover {
+    background-color: rgba(255,255,255,0.4);
+}
+
+div.product-listing {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-top: 1rem;
+
 }
 
 @layer utilities {

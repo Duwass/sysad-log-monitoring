@@ -14,12 +14,14 @@ interface Product {
 }
 
 const categories = [
+    'Accessories',
+    'Audio',
+    'Computers',
+    'Drones',
     'Electronics',
-    'Clothing',
-    'Books',
-    'Home Appliances',
-    'Beauty',
-    'Sports',
+    'Gaming',
+    'Tablets',
+    'Wearables'
 ]; // Example categories, adjust as needed
 
 const Shop = () => {
@@ -62,55 +64,68 @@ const Shop = () => {
         logger.info(`${product.productName} added to cart`);
     };
 
-    if (loading) return <p>Loading products...</p>;
-    if (error) return <p>{error}</p>;
-
     return (
-        <div style={{ padding: '2rem' }}>
-            <h1>Shop</h1>
-
-            {/* Filter and Sort Section */}
-            <div>
-                <label htmlFor="category">Filter by Category: </label>
-                <select
-                    id="category"
-                    value={selectedCategory}
-                    onChange={(e) => setSelectedCategory(e.target.value)}
-                >
-                    <option value="All">All</option>
-                    {categories.map(category => (
-                        <option key={category} value={category}>{category}</option>
-                    ))}
-                </select>
+        <div style={{ padding: '2rem' }}> 
+            <div className='header'>
+                <a href='/dashboard' style={{fontSize:44, fontWeight:'bold'}}>SysAd Shop</a>
+                <a href='/cart'><img src='cart.png'></img></a>
             </div>
 
-
-            {/* Product List */}
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '2rem', marginTop: '1rem' }}>
-                {filteredProducts.map(product => (
-                    <div key={product._id} style={{ border: '1px solid #ccc', padding: '1rem', borderRadius: '8px' }}>
-                        <h3>{product.productName}</h3>
-                        <p><strong>Price:</strong> ${product.price}</p>
-                        <p><strong>Category:</strong> {product.category}</p>
-                        <p><strong>Stock:</strong> {product.stock}</p>
-                        {product.description && <p>{product.description}</p>}
-                        <button onClick={() => addToCart(product)} style={{ padding: '0.5rem', marginTop: '1rem' }}>
-                            Add to Cart
-                        </button>
-
+            {loading ? (
+                <div>
+                    <div>Loading products...</div>
+                </div>
+                        
+            ) : error ? (
+                <div>
+                    <div>{error}</div>
+                </div>
+            ) : (
+                <div>
+                    {/* Filter and Sort Section */}
+                    <div>  
+                        <label htmlFor="category">Filter by Category: </label>
+                        <select
+                            id="category"
+                            value={selectedCategory}
+                            onChange={(e) => setSelectedCategory(e.target.value)}
+                            style={{borderRadius: '4px'}}
+                        >
+                            <option value="All">All</option>
+                            {categories.map(category => (
+                                <option key={category} value={category}>{category}</option>
+                            ))}
+                        </select>
                     </div>
-                ))}
-            </div>
 
-            {/* Cart Section */}
-            <div style={{ marginTop: '2rem' }}>
-                <h2>Shopping Cart</h2>
-                <ul>
-                    {cart.map(item => (
-                        <li key={item._id}>{item.productName} - ${item.price}</li>
-                    ))}
-                </ul>
-            </div>
+                    {/* Product List */}
+                    <div className='product-listing'>
+                        {filteredProducts.map(product => (
+                            <div key={product._id} style={{ border: '2px solid #f5f5f5', padding: '1rem', borderRadius: '8px', backgroundColor: 'rgba(255,255,255,0.2)'}}>
+                                <h3>{product.productName}</h3>
+                                <p><strong>Price:</strong> ${product.price}</p>
+                                <p><strong>Category:</strong> {product.category}</p>
+                                <p><strong>In stock:</strong> {product.stock}</p>
+                                {product.description && <p>{product.description}</p>}
+                                <button onClick={() => addToCart(product)} style={{ padding: '0.5rem', marginTop: '1rem', border: '2px solid #f5f5f5', borderRadius: '8px'}}>
+                                    Add to Cart
+                                </button>
+                            </div>
+                        ))}
+                    </div>
+
+                    {/* Cart Section */}
+                    <div style={{ marginTop: '2rem' }}>
+                        <h2>Shopping Cart</h2>
+                        <ul>
+                            {cart.map(item => (
+                                <li key={item._id}>{item.productName} - ${item.price}</li>
+                            ))}
+                        </ul>
+                    </div>
+                    
+                </div>
+            )}
         </div>
     );
 };
