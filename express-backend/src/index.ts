@@ -20,7 +20,7 @@ app.use(express.urlencoded({extended: false}));
 app.use(cors());
 app.use(loggingMiddleware);
 
-app.use("/api", UsersRoute, productsRoute,PaymentRoute, OrderRoute, CartRoute);
+app.use("/api", UsersRoute, ProductsRoute,PaymentRoute, OrderRoute, CartRoute);
 
 mongoose.connect(process.env.MONGODB_URI!, {
     dbName: 'SystemAd', //SystemAd

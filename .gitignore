@@ -3,3 +3,6 @@
 /.vscode/
 /package-lock.json/
 /express-backend/src/. ./
+
+
+/logs/
