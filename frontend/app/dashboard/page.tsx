@@ -59,6 +59,7 @@ const Shop = () => {
     const addToCart = (product: Product) => {
         setCart([...cart, product]);
         alert(`${product.productName} has been added to your cart!`);
+        logger.info(`${product.productName} added to cart`);
     };
 
     if (loading) return <p>Loading products...</p>;
