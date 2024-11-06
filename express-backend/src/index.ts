@@ -13,14 +13,14 @@ import CartRoute from "./routes/carts.route"
 
 dotenv.config();
 
-const server = express();
+const app = express();
 
-server.use(express.json());
-server.use(express.urlencoded({extended: false}));
-server.use(cors());
-server.use(loggingMiddleware);
+app.use(express.json());
+app.use(express.urlencoded({extended: false}));
+app.use(cors());
+app.use(loggingMiddleware);
 
-server.use("/api", UsersRoute, ProductsRoute,PaymentRoute, OrderRoute, CartRoute);
+app.use("/api", UsersRoute, productsRoute,PaymentRoute, OrderRoute, CartRoute);
 
 mongoose.connect(process.env.MONGODB_URI!, {
     dbName: 'SystemAd', //SystemAd
@@ -28,7 +28,7 @@ mongoose.connect(process.env.MONGODB_URI!, {
 })
     .then(() => {
         console.log('Connecting to MongoDB!');
-        server.listen(3001, () => {
+        app.listen(3001, () => {
             console.log("server running on http://localhost:3001");
         });
     })

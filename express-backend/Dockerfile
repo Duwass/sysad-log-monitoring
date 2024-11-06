@@ -1,6 +1,6 @@
 FROM node:20.16.0-alpine
 
-WORKDIR /usr/src/index
+WORKDIR /usr/src/app
 
 # Copy dependencies trước để tận dụng caching
 COPY package*.json ./

@@ -19,6 +19,16 @@ _Nhớ đọc nhé các bro :v_
   - FileBeats: 5044
   - Elastic_Search: 9200
   - Kibana: 5601
+
+  **ELK Setup**
+  - Make sure you have docker installed on your machine
+  - docker-compose up -d
+  - Access Kibana at http://localhost:5601 => ra lỗi
+  - vào container elastic và set pass cho kibana_system
+  `docker compose exec elastic sh`
+  `curl -X POST -u "elastic:${ELASTIC_PASSWORD}" -H "Content-Type: application/json" http://localhost:9200/_security/user/kibana_system/_password -d "{ \"password\": \"${KIBANA_PASSWORD}\" }"`
+  - F5 là oke
+
 ### WORKFLOW
 - **Frontend side:**
   - Chuyển sang folder frontend để code`cd frontend`
