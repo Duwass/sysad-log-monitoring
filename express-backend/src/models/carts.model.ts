@@ -1,9 +1,10 @@
 import { Schema, model, models } from "mongoose";
-
+import Product from "./products.model";
+import User from "./users.model";
 
 const cartItemSchema = new Schema(
     {
-        productId: { type: String, required: true },
+        productCode: { type: String, required: true, ref: "Product" },
         quantity: { type: Number, required: true },
         price: { type: Number, required: true }
     },
@@ -11,7 +12,7 @@ const cartItemSchema = new Schema(
 );
 const CartSchema = new Schema(
     {
-        customerId: { type: String, required: true },
+        customerId: { type: String, required: true ,ref:"User"},
         items: [cartItemSchema],
         totalAmount: { type: Number, required: true },
         createdAt: { type: Date, default: Date.now }

@@ -30,9 +30,10 @@ export const createProduct = async (req: Request, res: Response) => {
 };
 
 // Tìm kiếm product theo id
-export const getProductById = async (req: Request, res: Response) => {
+export const getProductByCode = async (req: Request, res: Response) => {
     try {
-        const product = await Product.findById(req.params.id);
+        const productCode = req.params.productCode;
+        const product = await Product.findOne({ productCode: productCode }); // Kiểm tra nếu productCode tồn tại trong DB
         if (product) {
             res.status(200).json(product);
         } else {

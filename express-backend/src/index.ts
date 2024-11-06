@@ -6,10 +6,10 @@ import dotenv from "dotenv";
 import loggingMiddleware from "./middlewares/logging.middleware";
 
 import UsersRoute from "./routes/users.route";
-import productsRoute from "./routes/products.route";
+import ProductsRoute from "./routes/products.route";
 import PaymentRoute from "./routes/payments.route";
 import OrderRoute from "./routes/orders.route";
-import CartRoute from "./routes/carts.route";
+import CartRoute from "./routes/carts.route"
 
 dotenv.config();
 
