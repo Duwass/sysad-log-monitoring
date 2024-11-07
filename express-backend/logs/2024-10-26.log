@@ -1,2 +1,0 @@
-{"level":"\u001b[32minfo\u001b[39m","message":"::1 - - [25/Oct/2024:18:44:07 +0000] \"GET /api/product/list HTTP/1.1\" 200 3225 \"-\" \"PostmanRuntime/7.42.0\"","timestamp":"2024-10-25T18:44:07.062Z"}
-{"level":"\u001b[32minfo\u001b[39m","message":"::1 - - [25/Oct/2024:18:44:09 +0000] \"GET /api/product/list HTTP/1.1\" 200 3225 \"-\" \"PostmanRuntime/7.42.0\"","timestamp":"2024-10-25T18:44:09.743Z"}
