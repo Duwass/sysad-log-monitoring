@@ -10,6 +10,9 @@ const Login = () => {
     const [error, setError] = useState<string | null>(null);
     const router = useRouter();
 
+    // Remove userID from storage
+    localStorage.removeItem('userID');
+
     const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
@@ -32,10 +35,14 @@ const Login = () => {
                 // Redirect or handle success
                 alert('Login successful!');
 
+                // Add userID to local storage
+                localStorage.setItem('userID', data.user.id);
+
                 // Log the login event
                 logger.info(`User ${email} logged in`);
 
-                router.push('/dashboard'); // Example redirect to a protected page
+                // Redirect to dashboard
+                router.push('/dashboard');
             } else {
                 // Set the error message if login fails
                 setError(data.message || 'Login failed. Please try again.');
@@ -90,7 +97,7 @@ const Login = () => {
                             </label>
                         </div>
                         {error && (
-                            <p style={{ color: 'red', marginBottom: '1rem' }}>{error}</p>
+                            <p style={{ color: 'red', marginBottom: '1rem', maxWidth: '380px'}}>{error}</p>
                         )}
                         <button type="submit" className="mt-8 inline-block bg-blue-500 text-white px-36 py-3 rounded">Đăng nhập</button>
 

@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import logger from "../../logger";
+
 const Register = () => {
     const [username, setUsername] = useState<string>('');
     const [email, setEmail] = useState<string>('');
@@ -12,6 +13,9 @@ const Register = () => {
     const [error, setError] = useState<string | null>(null);
     const [success, setSuccess] = useState<string | null>(null);
     const router = useRouter();
+
+    // Remove userID from storage
+    localStorage.removeItem('userID');
 
     const handleRegister = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -41,7 +45,32 @@ const Register = () => {
                 // On successful registration, set success message and optionally redirect
                 setSuccess('User registered successfully!');
 
-                router.push('/dashboard'); // Redirect to dashboard
+                try {
+                    const login_response = await fetch('http://localhost:3001/api/login', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Access-Control-Allow-Origin': '*',
+                        },
+                        body: JSON.stringify({ email, password }),
+                    });
+
+                    const login_data = await login_response.json();
+
+                    if (login_response.ok) {
+                        // Redirect or handle success
+                        alert('Register successful!');
+
+                        // Add userID to local storage
+                        localStorage.setItem('userID', login_data.user.id);
+
+                        // Log the login event
+                        logger.info(`User ${email} logged in`);
+                        
+                        // Redirect to dashboard
+                        router.push('/dashboard'); 
+                    }
+                } catch { }
             } else {
                 // If registration fails, set error message
                 logger.error('Registration failed');
@@ -122,7 +151,7 @@ const Register = () => {
                             </label>
                         </div>
                         {error && (
-                            <p style={{ color: 'red', marginBottom: '1rem' }}>{error}</p>
+                            <p style={{ color: 'red', marginBottom: '1rem', maxWidth: '380px'}}>{error}</p>
                         )}
                         {success && (
                             <p style={{ color: 'green', marginBottom: '1rem' }}>{success}</p>
