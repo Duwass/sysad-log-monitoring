@@ -3,7 +3,7 @@ import cors from "cors";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 
-import loggingMiddleware from "./middlewares/logging.middleware";
+import { infoLogging, errorLogging } from './middlewares/logging.middleware';
 
 import UsersRoute from "./routes/users.route";
 import ProductsRoute from "./routes/products.route";
@@ -18,7 +18,8 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 app.use(cors());
-app.use(loggingMiddleware);
+app.use(infoLogging);
+app.use(errorLogging)
 
 app.use("/api", UsersRoute, ProductsRoute,PaymentRoute, OrderRoute, CartRoute);
 
