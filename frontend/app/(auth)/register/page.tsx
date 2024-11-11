@@ -14,11 +14,12 @@ const Register = () => {
     const [success, setSuccess] = useState<string | null>(null);
     const router = useRouter();
 
-    // Remove userID from storage
-    localStorage.removeItem('userID');
+
 
     const handleRegister = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        // Remove userID from storage
+        localStorage.removeItem('userID');
 
         // Reset error and success messages
         setError(null);

@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import logger from "../logger";
+import Image from "next/image";
 
 interface Product {
     _id: string;
@@ -60,7 +61,7 @@ const Shop = () => {
         };
 
         fetchProducts();
-    }, []);
+    }, [router]);
 
 
     const filteredProducts = selectedCategory === 'All'
@@ -70,7 +71,7 @@ const Shop = () => {
     const addToCart = async (product: Product) => {
         const customerId = localStorage.getItem('userID');
         const productCode = product.productCode;
-        let quantity = 1;
+        const quantity = 1;
 
         try {
             const response = await fetch('http://localhost:3001/api/cart/add', {
@@ -103,7 +104,7 @@ const Shop = () => {
         <div style={{ padding: '2rem' }}> 
             <div className='header'>
                 <a href='/dashboard' style={{fontSize:44, fontWeight:'bold'}}>SysAd Shop</a>
-                <a href='/cart'><img src='cart.png'></img></a>
+                <a href='/cart'> <Image src='/frontend/public/cart.png' alt='cart'></Image></a>
             </div>
 
             {loading ? (
