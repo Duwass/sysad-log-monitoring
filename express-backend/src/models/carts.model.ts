@@ -4,6 +4,7 @@ import User from "./users.model";
 
 const cartItemSchema = new Schema(
     {
+        productName:{ type: String, required: true, ref: "Product" },
         productCode: { type: String, required: true, ref: "Product" },
         quantity: { type: Number, required: true },
         price: { type: Number, required: true }

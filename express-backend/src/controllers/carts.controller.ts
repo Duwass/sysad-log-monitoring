@@ -15,46 +15,46 @@ export const getAllCarts = async (req: Request, res: Response) => {
         }
     }
 };
-
+//Thêm item của product vào cart
 export const addItemToCart = async (req: Request, res: Response): Promise<any> => {
     try {
         const { customerId, productCode, quantity } = req.body;
 
-        // Find product to get its price
-        const productcode = req.params.productCode;
-        const product = await Product.findOne({ productCode: productCode });
+        // Tìm sản phẩm để lấy `productName` và `price`
+        const product = await Product.findOne({ productCode });
         if (!product) {
             return res.status(404).json({ message: 'Product not found' });
         }
 
-        const price = product.price;
+        const { price, productName } = product;
 
-        // Find cart by customer ID
+        // Tìm giỏ hàng theo `customerId`
         let cart = await Cart.findOne({ customerId });
 
         if (!cart) {
-            // Create new cart if it doesn't exist
+            // Tạo mới giỏ hàng nếu chưa có
             cart = new Cart({
                 customerId,
-                items: [{ productCode, quantity, price }],
+                items: [{ productName, productCode, quantity, price }],
                 totalAmount: price * quantity
             });
         } else {
-            // Check if the item already exists in the cart
-            const existingItemIndex = cart.items.findIndex((item: { productCode: any }) => item.productCode === productCode);
+            // Kiểm tra nếu sản phẩm đã tồn tại trong giỏ hàng
+            const existingItemIndex = cart.items.findIndex((item: { productCode: string }) => item.productCode === productCode);
 
             if (existingItemIndex > -1) {
-                // Update quantity if item already exists in cart
+                // Cập nhật số lượng nếu sản phẩm đã có trong giỏ
                 cart.items[existingItemIndex].quantity += quantity;
             } else {
-                // Add new item if it doesn't exist in cart
-                cart.items.push({ productCode, quantity, price });
+                // Thêm sản phẩm mới nếu chưa có trong giỏ
+                cart.items.push({ productName, productCode, quantity, price });
             }
-            // Update total amount
+
+            // Cập nhật tổng số tiền
             cart.totalAmount += price * quantity;
         }
 
-        // Save cart
+        // Lưu giỏ hàng
         await cart.save();
 
         return res.status(200).json(cart);
@@ -66,8 +66,6 @@ export const addItemToCart = async (req: Request, res: Response): Promise<any> =
         }
     }
 };
-  
-
 // Tìm kiếm giỏ hàng theo id
 export const getCartById = async (req: Request, res: Response) => {
     try {
