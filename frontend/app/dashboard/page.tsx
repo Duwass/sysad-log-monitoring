@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import logger from "../logger";
 import Image from "next/image";
+import cartLogo from '../../public/cart.png';
 
 interface Product {
     _id: string;
@@ -85,8 +86,6 @@ const Shop = () => {
 
             const data = await response.json();
 
-            console.log(data);
-
             if (response.ok) {
                 // Add cartID to storage
                 localStorage.setItem('cartID', data._id)
@@ -104,7 +103,7 @@ const Shop = () => {
         <div style={{ padding: '2rem' }}> 
             <div className='header'>
                 <a href='/dashboard' style={{fontSize:44, fontWeight:'bold'}}>SysAd Shop</a>
-                <a href='/cart'> <Image src='/frontend/public/cart.png' alt='cart'></Image></a>
+                <a href='/cart'> <Image src={cartLogo} alt='cart'></Image></a>
             </div>
 
             {loading ? (
