@@ -17,8 +17,17 @@ services:
     image: docker.elastic.co/beats/filebeat:8.12.2
     command: filebeat -e -strict.perms=false
     volumes:
-      - ./elk/filebeat.yml:/usr/share/filebeat/filebeat.yml
       - ./logs:/var/log/server
+      - ./logs/nginx:/var/log/nginx/
+      - ./elk/filebeat.yml:/usr/share/filebeat/filebeat.yml:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+    environment:
+      - ELASTIC_USER=elastic
+      - ELASTIC_PASSWORD=myelasticpass
+      - ELASTIC_HOSTS=https://elastic:9200
+      - KIBANA_HOSTS=http://kibana:5601
+      - LOGSTASH_HOSTS=http://logstash:9600
 
   logstash:
     image: docker.elastic.co/logstash/logstash:8.12.2
@@ -60,6 +69,28 @@ services:
       - "80:80"
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./logs/nginx:/var/log/nginx
     depends_on:
       - frontend
       - backend
+      - filebeat
+
+  metricbeat:
+    image: docker.elastic.co/beats/metricbeat:8.12.2
+    command: metricbeat -e -strict.perms=false
+    volumes:
+      - ./elk/metricbeat.yml:/usr/share/metricbeat/metricbeat.yml
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /sys/fs/cgroup:/hostfs/sys/fs/cgroup:ro
+      - /proc:/hostfs/proc:ro
+      - /:/hostfs:ro
+    environment:
+      - ELASTIC_USER=elastic
+      - ELASTIC_PASSWORD=myelasticpass
+      - ELASTIC_HOSTS=https://elastic:9200
+      - KIBANA_HOSTS=http://kibana:5601
+      - LOGSTASH_HOSTS=http://logstash:9600
+    depends_on:
+      - elastic
+      - kibana
+      - logstash

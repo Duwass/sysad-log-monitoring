@@ -19,6 +19,7 @@ _Nhớ đọc nhé các bro :v_
   - FileBeats: 5044
   - Elastic_Search: 9200
   - Kibana: 5601
+  - Nginx: 80
 
   **ELK Setup**
   - Make sure you have docker installed on your machine
