@@ -14,9 +14,9 @@ const Cart = () => {
     const [products, setProducts] = useState<Product[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const router = useRouter();
-    let totalPrice = 0;
+    //let totalPrice = 0;
     
-    const fetchProductName = async (productCode: String) => {
+    const fetchProductName = async (productCode: string) => {
         try {
             const product_res = await fetch(`http://localhost:3001/api/product/${productCode}`);
             const product_data = await product_res.json();
@@ -67,7 +67,7 @@ const Cart = () => {
         };
 
         fetchCart();
-    }, []);
+    }, [router]);
     
     return (
         <div style={{ padding: '2rem' }}> 
@@ -86,9 +86,10 @@ const Cart = () => {
                         <h1>Giỏ hàng của bạn: </h1>
                     </div>
 
-            
+
                     <div className='product-listing'>
                         {products.map(product => (
+                            // eslint-disable-next-line react/jsx-key
                             <div className='listing-cell' style={{ height: '120px', border: '2px solid #f5f5f5', padding: '1rem', borderRadius: '8px', backgroundColor: 'rgba(255,255,255,0.2)'}}>
                                 <h3>{product.productName}</h3>
                                 <p><strong>Giá mỗi mặt hàng:</strong> ${product.price}</p>
@@ -98,7 +99,7 @@ const Cart = () => {
                     </div>
 
                     <div>
-                        <h1>Tổng tiền: ${totalPrice}</h1>
+                        <h1>Tổng tiền:</h1>
                     </div>
                 </div>
             )}

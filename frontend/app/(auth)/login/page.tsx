@@ -10,10 +10,12 @@ const Login = () => {
     const [error, setError] = useState<string | null>(null);
     const router = useRouter();
 
-    // Remove userID from storage
-    localStorage.removeItem('userID');
+
+
 
     const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
+        // Remove userID from storage
+        localStorage.removeItem('userID');
         e.preventDefault();
 
         // Reset error state

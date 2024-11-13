@@ -2,7 +2,31 @@ filebeat.inputs:
   - type: filestream
     id: my-log-input
     paths:
-      - "/var/log/server/*.log"
+      - /var/log/server/*.log
+    fields:
+        service: server
+
+filebeat.modules:
+  - module: nginx
+    access:
+      enabled: true
+      var.paths: ["/var/log/nginx/access.log"]
+    error:
+      enabled: true
+      var.paths: ["/var/log/nginx/error.log"]
+
+filebeat.autodiscover:
+  providers:
+    - type: docker
+      hints.enabled: true
+
+processors:
+  - add_docker_metadata: ~
+
+setup.kibana:
+  host: ${KIBANA_HOSTS}
+  username: ${ELASTIC_USER}
+  password: ${ELASTIC_PASSWORD}
 
 output.logstash:
   hosts: ["logstash:5044"]
