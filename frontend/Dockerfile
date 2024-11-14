@@ -1,4 +1,3 @@
-### STAGE 1: Builder (for development & building)
 FROM node:20.16.0-alpine
 
 WORKDIR /usr/src/app
