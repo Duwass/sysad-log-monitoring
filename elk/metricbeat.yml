@@ -19,6 +19,7 @@ metricbeat.modules:
 
   # Kibana module
   - module: kibana
+    xpack.enabled: false
     metricsets: ["stats"]
     period: 10s
     hosts: ["${KIBANA_HOSTS}"]
@@ -39,12 +40,14 @@ metricbeat.modules:
     period: 10s
 
 output.elasticsearch:
-  hosts: ["http://elastic:9200"]
+  hosts: ["${ELASTIC_HOSTS}"]
   username: "${ELASTIC_USER}"
   password: "${ELASTIC_PASSWORD}"
 
 setup.kibana:
-  host: "http://kibana:5601"
+  host: "${KIBANA_HOSTS}"
+  username: "${ELASTIC_USER}"
+  password: "${ELASTIC_PASSWORD}"
 
 processors:
   - add_host_metadata: ~

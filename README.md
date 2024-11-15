@@ -16,7 +16,7 @@ _Nhớ đọc nhé các bro :v_
   - PORT = 3001
 
   **Logs**
-  - FileBeats: 5044
+  - Logstash: 5044
   - Elastic_Search: 9200
   - Kibana: 5601
   - Nginx: 80
