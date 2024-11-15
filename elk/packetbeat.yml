@@ -1,26 +1,34 @@
 packetbeat.interfaces.device: any
-packetbeat.interfaces.snaplen: 2000
+
+packetbeat.flows:
+  timeout: 30s
+  period: 10s
 
 packetbeat.protocols:
   - type: http
     ports: [80, 8080, 3000, 3001]  # HTTP ports
+    fields:
+      service_id: nginx
+
   - type: tls
     ports: [443]  # HTTPS port
+
   - type: dns
     ports: [53]  # DNS port
+    include_authorities: true
+    include_additionals: true
+
   - type: ssh
     ports: [22]  # SSH port
+
   - type: ftp
     ports: [21]  # FTP port
+
   - type: dhcpv4
     ports: [67, 68]  # DHCP ports
-  - type: ntp
-    ports: [123]  # NTP port
-  - type: mongodb
-    ports: [27017]  # MongoDB port
 
 output.elasticsearch:
-  hosts: ["https://elastic:9200"]
+  hosts: ["http://elastic:9200"]
   username: "${ELASTIC_USER}"
   password: "${ELASTIC_PASSWORD}"
 
@@ -29,5 +37,7 @@ setup.kibana:
 
 processors:
   - add_cloud_metadata: ~
+  - add_host_metadata: ~
+  - add_docker_metadata: ~
 
-logging.level: info
+setup.dashboards.enabled: true

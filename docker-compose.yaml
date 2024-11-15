@@ -50,11 +50,9 @@ services:
       - cluster.routing.allocation.disk.threshold_enabled=false
     volumes:
       - ./elk/data:/usr/share/elasticsearch/data
-
+  
   kibana:
     image: docker.elastic.co/kibana/kibana:8.12.2
-    command: 
-      - ex
     environment:
       SERVER_NAME: kibana
       ELASTICSEARCH_HOSTS: '["http://elastic:9200"]'
@@ -64,8 +62,6 @@ services:
       - "5601:5601"
     depends_on:
       - elastic
-
-  
 
   nginx:
     image: nginx:1.27.2-perl
@@ -97,7 +93,6 @@ services:
     depends_on:
       - elastic
       - kibana
-      - logstash
 
   packetbeat:
     image: docker.elastic.co/beats/packetbeat:8.12.2
@@ -111,7 +106,7 @@ services:
     environment:
       - ELASTIC_USER=elastic
       - ELASTIC_PASSWORD=myelasticpass
-      - ELASTIC_HOSTS=https://elastic:9200
+      - ELASTIC_HOSTS=http://elastic:9200
       - KIBANA_HOSTS=http://kibana:5601
       - LOGSTASH_HOSTS=http://logstash:9600
     cap_add:
@@ -120,4 +115,7 @@ services:
     depends_on:
       - elastic
       - kibana
-      - logstash
+
+networks:
+  default:
+    name: elk_network
