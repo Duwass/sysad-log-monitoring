@@ -1,0 +1,74 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+    background-image: linear-gradient(to right,#80d0ff,#42b3f5, #5c95f7, #5d5af7, #925beb,#b450ee,#e759e5, #ff85e7);
+}
+
+div {
+    padding: 8px;
+}
+
+div.header {
+    display: flex;
+    justify-content: space-between;
+}
+
+button.add-to-cart:hover {
+    background-color: rgba(255,255,255,0.4);
+}
+
+div.product-listing {
+    display: grid;
+    gap: 2rem;
+    margin-top: 1rem;
+}
+
+div.listing-cell {
+    width: 276px;
+    height: 240px;
+}
+
+@media (min-width: 670px) {
+    div.product-listing {
+        grid-template-columns: repeat(2, 276px);
+        gap: 2rem;
+    }
+}
+
+@media (min-width: 970px) {
+    div.product-listing {
+        grid-template-columns: repeat(3, 276px);
+        gap: 2rem;
+    }
+}
+
+@media (min-width: 1270px) {
+    div.product-listing {
+        grid-template-columns: repeat(4, 276px);
+        gap: 2rem;
+    }
+}
+
+@media (min-width: 1570px) {
+    div.product-listing {
+        grid-template-columns: repeat(5, 276px);
+        gap: 2rem;
+    }
+}
+
+@media (min-width: 1800px) {
+    div.product-listing {
+        grid-template-columns: repeat(6, 276px);
+        gap: 2rem;
+    }
+}
+
+@layer utilities {
+    .text-balance {
+        text-wrap: balance;
+    }
+}
+
+

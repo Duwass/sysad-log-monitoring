@@ -1,0 +1,126 @@
+services:
+  frontend:
+    build:
+      context: ./frontend
+    ports:
+      - "3000:3000"
+
+  backend:
+    build:
+      context: ./express-backend
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./logs:/usr/src/app/logs  # Mount logs directory to the container
+
+  filebeat:
+    image: docker.elastic.co/beats/filebeat:8.12.2
+    command: filebeat -e -strict.perms=false
+    volumes:
+      - ./logs:/var/log/server
+      - ./logs/nginx/access.log:/var/log/nginx/access.log
+      - ./logs/nginx/error.log:/var/log/nginx/error.log
+      - ./logs/nginx:/var/log/nginx
+      - ./elk/modules.d:/usr/share/filebeat/modules.d:ro
+      - ./elk/filebeat.yml:/usr/share/filebeat/filebeat.yml:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+    environment:
+      - ELASTIC_USER=elastic
+      - ELASTIC_PASSWORD=myelasticpass
+      - ELASTIC_HOSTS=http://elastic:9200
+      - KIBANA_HOSTS=http://kibana:5601
+      - LOGSTASH_HOSTS=logstash:5044
+
+  logstash:
+    image: docker.elastic.co/logstash/logstash:8.12.2
+    ports:
+      - "5044:5044"
+    volumes:
+      - ./elk/logstash.conf:/usr/share/logstash/pipeline/logstash.conf
+    environment:
+      - ELASTIC_USER=elastic
+      - ELASTIC_PASSWORD=myelasticpass
+      - ELASTIC_HOSTS=http://elastic:9200
+    depends_on:
+      - elastic
+
+  elastic:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.12.2
+    environment:
+      - ELASTIC_PASSWORD=myelasticpass
+      - KIBANA_PASSWORD=kibanapass
+      - discovery.type=single-node
+      - xpack.security.http.ssl.enabled=false
+      - cluster.routing.allocation.disk.threshold_enabled=false
+    volumes:
+      - ./elk/data:/usr/share/elasticsearch/data
+  
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.12.2
+    environment:
+      SERVER_NAME: kibana_system
+      ELASTICSEARCH_HOSTS: '["http://elastic:9200"]'
+      ELASTICSEARCH_USERNAME: kibana_system
+      ELASTICSEARCH_PASSWORD: kibanapass
+    ports:
+      - "5601:5601"
+    depends_on:
+      - elastic
+
+  nginx:
+    image: nginx:1.27.2-perl
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./logs/nginx:/var/log/nginx
+    depends_on:
+      - frontend
+      - backend
+      - filebeat
+
+  metricbeat:
+    image: docker.elastic.co/beats/metricbeat:8.12.2
+    command: metricbeat -e -strict.perms=false
+    volumes:
+      - ./elk/metricbeat.yml:/usr/share/metricbeat/metricbeat.yml
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /sys/fs/cgroup:/hostfs/sys/fs/cgroup:ro
+      - /proc:/hostfs/proc:ro
+      - /:/hostfs:ro
+    environment:
+      - ELASTIC_USER=elastic
+      - ELASTIC_PASSWORD=myelasticpass
+      - ELASTIC_HOSTS=http://elastic:9200
+      - KIBANA_HOSTS=http://kibana:5601
+      - LOGSTASH_HOSTS=logstash:5044
+    depends_on:
+      - elastic
+      - kibana
+
+  packetbeat:
+    image: docker.elastic.co/beats/packetbeat:8.12.2
+    command: packetbeat -e -strict.perms=false
+    volumes:
+      - ./elk/packetbeat.yml:/usr/share/packetbeat/packetbeat.yml:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /sys/fs/cgroup:/hostfs/sys/fs/cgroup:ro
+      - /proc:/hostfs/proc:ro
+      - /:/hostfs:ro
+    environment:
+      - ELASTIC_USER=elastic
+      - ELASTIC_PASSWORD=myelasticpass
+      - ELASTIC_HOSTS=http://elastic:9200
+      - KIBANA_HOSTS=http://kibana:5601
+      - LOGSTASH_HOSTS=logstash:5044
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+    depends_on:
+      - elastic
+      - kibana
+
+networks:
+  default:
+    name: elk_network
