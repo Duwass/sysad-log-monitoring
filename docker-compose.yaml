@@ -113,7 +113,7 @@ services:
       - ELASTIC_PASSWORD=myelasticpass
       - ELASTIC_HOSTS=http://elastic:9200
       - KIBANA_HOSTS=http://kibana:5601
-      - LOGSTASH_HOSTS=http://logstash:9600
+      - LOGSTASH_HOSTS=logstash:5044
     cap_add:
       - NET_ADMIN
       - NET_RAW

@@ -10,25 +10,44 @@ _Nhớ đọc nhé các bro :v_
 ### SETUP
 - **Frontend**:
   - Framework: NextJs 
-  - PORT = 3000
+  - PORT: 3000
 - **Backend**:
   - Framework: Express.js
-  - PORT = 3001
+  - PORT: 3001
 
-  **Logs**
-  - Logstash: 5044
-  - Elastic_Search: 9200
-  - Kibana: 5601
-  - Nginx: 80
+  **ELK Stack**
+  - Elasticsearch: 
+    - PORT: 9200
+  - Kibana: 
+    - PORT: 5601
+  - Nginx: 
+    - PORT: 80
+  - Logstash: 
+    - PORT: 5044 (for Beats input) and 9600 (http)
+  - Beats:
+    - Filebeat: Output to Logstash
+    - Metricbeat: Output to Elasticsearch
+    - Packetbeat: Output to Elasticsearch
 
   **ELK Setup**
   - Make sure you have docker installed on your machine
-  - docker-compose up -d
-  - Access Kibana at http://localhost:5601 => ra lỗi
-  - vào container elastic và set pass cho kibana_system
-  `docker compose exec elastic sh`
-  `curl -X POST -u "elastic:${ELASTIC_PASSWORD}" -H "Content-Type: application/json" http://localhost:9200/_security/user/kibana_system/_password -d "{ \"password\": \"${KIBANA_PASSWORD}\" }"`
-  - F5 là oke
+  - `docker-compose up -d`
+  - Dừng ELK: `docker-compose down`
+  - Truy cập Kibana: http://localhost:5601
+  
+  **Setup Problems**
+    - Lỗi kibana `"Kibana server is not ready yet"`
+      - Check log của kibana: `docker logs elk_kibana_1`
+      - Vào container elastic và set pass cho kibana_system (nhập trên terminal)
+      `docker compose exec elastic sh`
+      `curl -X POST -u "elastic:${ELASTIC_PASSWORD}" -H "Content-Type: application/json" http://localhost:9200/_security/user/kibana_system/_password -d "{ \"password\": \"${KIBANA_PASSWORD}\" }"`
+      - F5 là oke
+    - Thiếu log để test:
+      - extract file logs.zip
+    - Các lỗi khác:
+      - Xóa hết các image ELK (trừ Frontend, Backend)
+      - Xóa data của ELK đi bằng cách xóa folder [elk/data]([data](elk/data)) đi 
+      - Chạy lại `docker-compose up -d`
 
 ### WORKFLOW
 - **Frontend side:**
@@ -66,6 +85,19 @@ _Nhớ đọc nhé các bro :v_
       project-root/
       │
       ├── README.md
+      │
+      ├── elk/
+      │   ├── data/                    <!-- Elastic storage -->
+      │   ├── filebeat.yaml            <!-- Filebeat configuration -->
+      │   ├── logstash.conf            <!-- Logstash configuration -->
+      │   ├── metricbeat.yaml          <!-- Metricbeat configuration -->
+      │   └── packetbeat.yaml          <!-- Packetbeat configuration -->
+      │
+      ├── nginx/nginx.conf             <!-- Nginx configuration -->
+      │
+      ├── docker-compose.yml           <!-- Docker Compose configuration --> 
+      │
+      ├── logs/                        <!-- (log files) --> 
       │
       ├── express-backend/
       │   ├── src/

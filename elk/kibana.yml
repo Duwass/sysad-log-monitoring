@@ -1,2 +1,0 @@
-elasticsearch.username: "kibana_system" #not working now
-elasticsearch.password: "kibanapass"
