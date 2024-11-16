@@ -93,7 +93,7 @@ _Nhớ đọc nhé các bro :v_
 9. Pull request
 
 ### FOLDER STRUCTURE ###
-      project-root/
+      sysad-log-monitoring/
       │
       ├── README.md
       │
@@ -119,7 +119,7 @@ _Nhớ đọc nhé các bro :v_
       │   ├── .env  
       │   ├── Dockerfile
       │   ├── package.json  <!-- (backend dependencies) -->
-      │   └── ...           <!-- (other frontend files) -->      │
+      │   └── ...           <!-- (other backend files) -->      │
       │
       ├── frontend/
       │   ├── index/          <!-- (frontend source code, e.g., components, services) -->
