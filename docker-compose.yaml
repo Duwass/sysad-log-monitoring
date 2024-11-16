@@ -18,19 +18,24 @@ services:
     command: filebeat -e -strict.perms=false
     volumes:
       - ./logs:/var/log/server
-      - ./logs/nginx:/var/log/nginx/
+      - ./logs/nginx/access.log:/var/log/nginx/access.log
+      - ./logs/nginx/error.log:/var/log/nginx/error.log
+      - ./logs/nginx:/var/log/nginx
+      - ./elk/modules.d:/usr/share/filebeat/modules.d:ro
       - ./elk/filebeat.yml:/usr/share/filebeat/filebeat.yml:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - /var/lib/docker/containers:/var/lib/docker/containers:ro
     environment:
       - ELASTIC_USER=elastic
       - ELASTIC_PASSWORD=myelasticpass
-      - ELASTIC_HOSTS=https://elastic:9200
+      - ELASTIC_HOSTS=http://elastic:9200
       - KIBANA_HOSTS=http://kibana:5601
-      - LOGSTASH_HOSTS=http://logstash:9600
+      - LOGSTASH_HOSTS=logstash:5044
 
   logstash:
     image: docker.elastic.co/logstash/logstash:8.12.2
+    ports:
+      - "5044:5044"
     volumes:
       - ./elk/logstash.conf:/usr/share/logstash/pipeline/logstash.conf
     environment:
@@ -54,7 +59,7 @@ services:
   kibana:
     image: docker.elastic.co/kibana/kibana:8.12.2
     environment:
-      SERVER_NAME: kibana
+      SERVER_NAME: kibana_system
       ELASTICSEARCH_HOSTS: '["http://elastic:9200"]'
       ELASTICSEARCH_USERNAME: kibana_system
       ELASTICSEARCH_PASSWORD: kibanapass
@@ -87,9 +92,9 @@ services:
     environment:
       - ELASTIC_USER=elastic
       - ELASTIC_PASSWORD=myelasticpass
-      - ELASTIC_HOSTS=https://elastic:9200
+      - ELASTIC_HOSTS=http://elastic:9200
       - KIBANA_HOSTS=http://kibana:5601
-      - LOGSTASH_HOSTS=http://logstash:9600
+      - LOGSTASH_HOSTS=logstash:5044
     depends_on:
       - elastic
       - kibana

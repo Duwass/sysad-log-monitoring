@@ -13,7 +13,7 @@ interface Product {
 }
 
 // Global variable
-var totalPrice = 0;
+let totalPrice = 0;
 
 function getTotalPrice(products : Product[]) {
     totalPrice = 0;
@@ -25,7 +25,7 @@ function getTotalPrice(products : Product[]) {
 }
 
 const deleteCart = async () => {
-    var confirmation = confirm('Xóa giỏ hàng?');
+    const confirmation = confirm('Xóa giỏ hàng?');
 
     if (confirmation) {
         const cartID = localStorage.getItem('cartID');

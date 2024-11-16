@@ -3,8 +3,15 @@ filebeat.inputs:
     id: my-log-input
     paths:
       - /var/log/server/*.log
+
+  - type: filestream
+    id: nginx-log-input
+    paths:
+      - /var/log/nginx/access.log
+      - /var/log/nginx/error.log
     fields:
-        service: server
+      service: nginx
+
 
 filebeat.modules:
   - module: nginx
