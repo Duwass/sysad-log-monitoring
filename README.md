@@ -52,11 +52,20 @@ _Nhớ đọc nhé các bro :v_
       - Chạy lại `docker-compose up -d`
 
 ### WORKFLOW
-- **Frontend side:**
+- **Chạy toàn bộ hệ thống**
+  - Bật các container lên qua docker-compose.yml: `docker-compose up -d`
+  - Truy cập web: http://localhost
+    - Web API (Backend): http://localhost/api
+  - Truy cập Kibana: http://localhost:5601
+    - Nhập username=elastic và password=myelasticpass
+    - Truy cập Kibana=>Discover để xem log
+    - Truy cập Stack Management để xem tình trạng stack
+  - Tắt hệ thống: `docker-compose down`
+- **Chạy riêng Frontend:**
   - Chuyển sang folder frontend để code`cd frontend`
   - Tải dependencies: `npm install`
   - Chạy FE server (môi trường development): `npm run dev`
-- **Backend side:** 
+- **Chạy riêng Backend:** 
   - Chuyển sang folder backend để code `cd express-backend`
   - Tải dependencies: `npm install`
   - Chạy BE server: `npm start`
@@ -90,10 +99,10 @@ _Nhớ đọc nhé các bro :v_
       │
       ├── elk/
       │   ├── data/                    <!-- Elastic storage -->
-      │   ├── filebeat.yaml            <!-- Filebeat configuration -->
+      │   ├── filebeat.yml            <!-- Filebeat configuration -->
       │   ├── logstash.conf            <!-- Logstash configuration -->
-      │   ├── metricbeat.yaml          <!-- Metricbeat configuration -->
-      │   └── packetbeat.yaml          <!-- Packetbeat configuration -->
+      │   ├── metricbeat.yml          <!-- Metricbeat configuration -->
+      │   └── packetbeat.yml          <!-- Packetbeat configuration -->
       │
       ├── nginx/nginx.conf             <!-- Nginx configuration -->
       │
