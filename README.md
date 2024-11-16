@@ -57,7 +57,7 @@ _Nhớ đọc nhé các bro :v_
   - Truy cập web: http://localhost
     - Web API (Backend): http://localhost/api
   - Truy cập Kibana: http://localhost:5601
-    - Nhập username=elastic và password=myelasticpass
+    - Nhập username và password
     - Truy cập Kibana=>Discover để xem log
     - Truy cập Stack Management để xem tình trạng stack
   - Tắt hệ thống: `docker-compose down`
@@ -129,4 +129,4 @@ _Nhớ đọc nhé các bro :v_
       │   ├── package.json  <!-- (frontend dependencies) -->
       │   └── ...           <!-- (other frontend files) -->
       │
-      └── .gitignore        <!-- (global .gitignore if needed) -->
+      └── .gitignore        <!-- (global .gitignore if needed) --
