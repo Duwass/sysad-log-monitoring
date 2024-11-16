@@ -1,4 +1,6 @@
 # sysad-log-monitoring
+_Last update: 17-11-2024 by 22025510_
+
 _Nhớ đọc nhé các bro :v_
 
 - [SETUP](#setup)
@@ -119,7 +121,3 @@ _Nhớ đọc nhé các bro :v_
       │   └── ...           <!-- (other frontend files) -->
       │
       └── .gitignore        <!-- (global .gitignore if needed) -->
-
-
-
-_From 22025510~_
