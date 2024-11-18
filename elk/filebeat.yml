@@ -3,6 +3,13 @@ filebeat.inputs:
     id: my-log-input
     paths:
       - /var/log/server/*.log
+    fields:
+        service: server
+
+  - type: filestream
+    id: filebeat-filestream
+    paths:
+      - ingest_data/*.log
 
   - type: filestream
     id: nginx-log-input
@@ -35,5 +42,10 @@ setup.kibana:
   username: ${ELASTIC_USER}
   password: ${ELASTIC_PASSWORD}
 
-output.logstash:
-  hosts: ["logstash:5044"]
+output.elasticsearch:
+  hosts: ${ELASTIC_HOSTS}
+  username: ${ELASTIC_USER}
+  password: ${ELASTIC_PASSWORD}
+  ssl:
+    enabled: true
+    certificate_authorities: ${CA_CERT}
