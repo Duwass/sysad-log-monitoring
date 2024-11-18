@@ -27,6 +27,13 @@ packetbeat.protocols:
   - type: dhcpv4
     ports: [67, 68]  # DHCP ports
 
+setup.kibana:
+  host: "${KIBANA_HOSTS}"
+  xpack.enabled: true
+  ssl:
+    enabled: true
+    certificate_authorities: ${CA_CERT}
+
 output.elasticsearch:
   hosts: ['${ELASTIC_HOSTS}']
   username: "${ELASTIC_USER}"
@@ -34,11 +41,6 @@ output.elasticsearch:
   ssl:
     enabled: true
     certificate_authorities: ${CA_CERT}
-
-setup.kibana:
-  host: "${KIBANA_HOSTS}"
-  xpack.enabled: true
-
 
 processors:
   - add_host_metadata: ~
