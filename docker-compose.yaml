@@ -184,7 +184,6 @@ services:
       - ELASTIC_PASSWORD=${ELASTIC_PASSWORD}
       - ELASTIC_HOSTS=https://elastic:9200
 
-
   metricbeat:
     depends_on:
       elastic:
@@ -287,8 +286,8 @@ services:
       - "/proc:/hostfs/proc:ro"
       - "/:/hostfs:ro"
     ports:
-      - ${FLEET_PORT}:8220
       - ${APMSERVER_PORT}:8200
+      - ${FLEET_PORT}:8220
     user: root
     environment:
       - SSL_CERTIFICATE_AUTHORITIES=/certs/ca/ca.crt
@@ -310,14 +309,14 @@ services:
       - KIBANA_FLEET_USERNAME=elastic
       - KIBANA_FLEET_PASSWORD=${ELASTIC_PASSWORD}
       - KIBANA_HOST=https://kibana:5601
-
+      
   nginx:
     image: nginx:1.27.2-perl
     ports:
       - "80:80"
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
-      - ./logs/nginx:/var/log/nginx
+      - ./logs/nginx:/var/log/nginx:ro
     depends_on:
       - frontend
       - backend

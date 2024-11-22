@@ -9,7 +9,7 @@ filebeat.inputs:
   - type: filestream
     id: filebeat-filestream
     paths:
-      - ingest_data/*.log
+      - filebeat_ingest_data/*.log
 
   - type: filestream
     id: nginx-log-input
