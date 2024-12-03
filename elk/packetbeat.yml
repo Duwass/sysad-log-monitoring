@@ -27,16 +27,22 @@ packetbeat.protocols:
   - type: dhcpv4
     ports: [67, 68]  # DHCP ports
 
+setup.kibana:
+  host: "${KIBANA_HOSTS}"
+  xpack.enabled: true
+  ssl:
+    enabled: true
+    certificate_authorities: ${CA_CERT}
+
 output.elasticsearch:
-  hosts: ["http://elastic:9200"]
+  hosts: ['${ELASTIC_HOSTS}']
   username: "${ELASTIC_USER}"
   password: "${ELASTIC_PASSWORD}"
-
-setup.kibana:
-  host: "http://kibana:5601"
+  ssl:
+    enabled: true
+    certificate_authorities: ${CA_CERT}
 
 processors:
-  - add_cloud_metadata: ~
   - add_host_metadata: ~
   - add_docker_metadata: ~
 

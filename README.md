@@ -37,7 +37,7 @@ _Nhớ đọc nhé các bro :v_
   - Dừng ELK: `docker-compose down`
   - Truy cập Kibana: http://localhost:5601
   
-  **Setup Problems**
+  **Setup Problems** Đã giải quyết được bằng cách tự động hóa
     - Lỗi kibana `"Kibana server is not ready yet"`
       - Check log của kibana: `docker logs elk_kibana_1`
       - Vào container elastic và set pass cho kibana_system (nhập trên terminal)
