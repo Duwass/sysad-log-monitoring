@@ -5,26 +5,33 @@ metricbeat.config.modules:
 metricbeat.modules:
   # Elasticsearch module
   - module: elasticsearch
-    xpack.enabled: false
+    xpack.enabled: true
     period: 10s
-    hosts: ["${ELASTIC_HOSTS}"]
+    hosts: "${ELASTIC_HOSTS}"
     username: "${ELASTIC_USER}"
     password: "${ELASTIC_PASSWORD}"
+    ssl:
+      enabled: true
+      certificate_authorities: ${CA_CERT}
 
   # Logstash module
   - module: logstash
-    xpack.enabled: false
+    xpack.enabled: true
     period: 10s
-    hosts: ["${LOGSTASH_HOSTS}"]
+    hosts: "${LOGSTASH_HOSTS}"
 
   # Kibana module
   - module: kibana
-    xpack.enabled: false
-    metricsets: ["stats"]
+    metricsets:
+      - stats
     period: 10s
-    hosts: ["${KIBANA_HOSTS}"]
-    username: "${ELASTIC_USER}"
-    password: "${ELASTIC_PASSWORD}"
+    hosts: ${KIBANA_HOSTS}
+    username: ${ELASTIC_USER}
+    password: ${ELASTIC_PASSWORD}
+    xpack.enabled: true
+    ssl:
+      enabled: true
+      certificate_authorities: ${CA_CERT}
 
   # Docker module
   - module: docker
@@ -38,18 +45,16 @@ metricbeat.modules:
       - "network"
     hosts: ["unix:///var/run/docker.sock"]
     period: 10s
+    enable: true
+
+processors:
+  - add_host_metadata: ~
+  - add_docker_metadata: ~
 
 output.elasticsearch:
   hosts: ["${ELASTIC_HOSTS}"]
   username: "${ELASTIC_USER}"
   password: "${ELASTIC_PASSWORD}"
-
-setup.kibana:
-  host: "${KIBANA_HOSTS}"
-  username: "${ELASTIC_USER}"
-  password: "${ELASTIC_PASSWORD}"
-
-processors:
-  - add_host_metadata: ~
-  - add_docker_metadata: ~
-  - add_cloud_metadata: ~
+  ssl:
+    enabled: true
+    certificate_authorities: ${CA_CERT}
