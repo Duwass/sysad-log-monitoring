@@ -1,7 +1,6 @@
 # sysad-log-monitoring
-_Last update: 17-11-2024 by 22025510_
-
-_Nhớ đọc nhé các bro :v_
+_Last update: 1-3-2024 by 22025510_
+### PROJECT REPORT: Check Team_2_ELK_Stack_report.pdf
 
 - [SETUP](#setup)
 - [WORKFLOW](#workflow)
