@@ -4,5 +4,8 @@
 /package-lock.json/
 /express-backend/src/. ./
 
+.env
+.env.local
+.env.*.local
 
 /logs/
